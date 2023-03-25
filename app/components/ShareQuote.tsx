@@ -25,7 +25,7 @@ export default function ShareQuote({ id }: IButtonProps) {
         value={hostname() + id}
       />
       <PrimaryButton
-        className="mb-2 "
+        className="mb-2"
         handleClick={() => copyToClipboard(hostname() + id)}
       >
         Copy link

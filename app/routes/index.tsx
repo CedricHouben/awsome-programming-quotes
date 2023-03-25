@@ -18,13 +18,13 @@ export const meta: V2_MetaFunction = () => [{ title: "Your awsome quote" }];
 export default function Quote() {
   const { quote } = useLoaderData<typeof loader>();
   return (
-    <main className="container mx-auto  h-full px-8">
+    <main className="container mx-auto  h-full  px-8">
       <div className="flex h-full flex-col items-center justify-center">
-        <h1 className="font-retro text-3xl">
+        <h1 className="mb-2 overflow-y-auto font-retro text-3xl">
           {quote.description}
           <span className="cursor">|</span>
         </h1>
-        <h2 className="mb-2 pt-2 font-retro text-2xl">{quote.author}</h2>
+        <h2 className="mb-4 font-retro text-2xl">{quote.author}</h2>
 
         <ShareDrawer>
           <ShareQuote id={quote.id} />
