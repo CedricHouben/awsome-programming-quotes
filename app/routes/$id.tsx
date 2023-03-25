@@ -1,15 +1,15 @@
-import { Quote } from "@prisma/client";
-import type { V2_MetaFunction } from "@remix-run/node";
+import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import ShareDrawer from "~/components/ShareDrawer";
-import ShareQuote from "~/components/ShareQuote";
-import { getRandomQuote } from "~/models/quote.server";
+import { getQuote } from "~/models/quote.server";
 
-export const loader = async () => {
-  const quote = await getRandomQuote();
-  invariant(quote, "Quote not found");
+export const loader = async ({ params }: LoaderArgs) => {
+  invariant(params.id, `params.id is required`);
+
+  const quote = await getQuote(params.id);
+  invariant(quote, `Quote not found: ${params.id}`);
+
   return json({ quote });
 };
 
@@ -24,11 +24,7 @@ export default function Quote() {
           {quote.description}
           <span className="cursor">|</span>
         </h1>
-        <h2 className="mb-2 pt-2 font-retro text-2xl">{quote.author}</h2>
-
-        <ShareDrawer>
-          <ShareQuote id={quote.id} />
-        </ShareDrawer>
+        <h2 className="pt-2 font-retro text-2xl">{quote.author}</h2>
       </div>
     </main>
   );
