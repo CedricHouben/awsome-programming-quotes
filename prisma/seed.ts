@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { quotes } from "./data/quotes";
 
 const prisma = new PrismaClient();
 
@@ -24,21 +25,13 @@ async function seed() {
     },
   });
 
-  await prisma.note.create({
-    data: {
-      title: "My first note",
-      body: "Hello, world!",
-      userId: user.id,
-    },
-  });
-
-  await prisma.note.create({
-    data: {
-      title: "My second note",
-      body: "Hello, world!",
-      userId: user.id,
-    },
-  });
+  for (const quote of quotes) {
+    await prisma.quote.upsert({
+      where: { id: quote.id },
+      update: quote,
+      create: quote,
+    });
+  }
 
   console.log(`Database has been seeded. 🌱`);
 }

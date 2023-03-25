@@ -10,10 +10,14 @@ import {
 } from "@remix-run/react";
 
 import tailwindStylesheetUrl from "./styles/tailwind.css";
+import main from "./styles/main.css";
 import { getUser } from "./session.server";
 
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];
+  return [
+    { rel: "stylesheet", href: main },
+    { rel: "stylesheet", href: tailwindStylesheetUrl },
+  ];
 };
 
 export async function loader({ request }: LoaderArgs) {
