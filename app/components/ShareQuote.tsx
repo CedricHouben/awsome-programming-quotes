@@ -1,15 +1,15 @@
 import { useState } from "react";
 import PrimaryButton from "./PrimaryButton";
 
-export interface IButtonProps {
+export interface IShareQuote {
   id: string;
 }
-export default function ShareQuote({ id }: IButtonProps) {
+export default function ShareQuote({ id }: IShareQuote) {
   const [copied, setCopied] = useState(false);
-  function hostname() {
+  function hostname(id: string) {
     return typeof document !== "undefined"
-      ? (window as Window).location.href
-      : null;
+      ? `${window.location.protocol}//${window.location.host}/${id}`
+      : "";
   }
 
   function copyToClipboard(text: string) {
@@ -22,15 +22,16 @@ export default function ShareQuote({ id }: IButtonProps) {
         className="mb-2 w-full py-2"
         type="text"
         disabled
-        value={hostname() + id}
+        value={hostname(id)}
       />
       <PrimaryButton
+        dataQa="shareQuote-copy-btn"
         className="mb-2"
-        handleClick={() => copyToClipboard(hostname() + id)}
+        handleClick={() => copyToClipboard(hostname(id))}
       >
         Copy link
       </PrimaryButton>
-      {copied && <p>Link successfully copied to clipboard</p>}
+      {copied && <p className="text-green-500">Link copied to clipboard</p>}
     </div>
   );
 }

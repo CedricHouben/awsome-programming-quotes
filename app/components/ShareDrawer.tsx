@@ -3,14 +3,17 @@ import colors from "~/theme/colors";
 import { CrossIcon } from "./icons";
 import PrimaryButton from "./PrimaryButton";
 
-export interface IButtonProps {
+export interface IShareDrawer {
   children: JSX.Element;
 }
-export default function Drawer({ children }: IButtonProps) {
+export default function Drawer({ children }: IShareDrawer) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
-      <PrimaryButton handleClick={() => setIsOpen(!isOpen)}>
+      <PrimaryButton
+        handleClick={() => setIsOpen(!isOpen)}
+        dataQa="shareDrawer-share-btn"
+      >
         Share
       </PrimaryButton>
 
