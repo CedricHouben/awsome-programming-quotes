@@ -12,6 +12,11 @@
   }
 }
 
+:root {
+  --navbarheight: 84px;
+  --footerheight: 48px;
+}
+
 .slide-right {
   left: 100%;
   transition: transform 0.3s ease-out;
@@ -33,4 +38,8 @@
 
 .cursor {
   animation: blink 1s infinite;
+}
+
+.full-height-exc-navbar {
+  height: calc(100% - (var(--navbarheight) + var(--footerheight)));
 }

@@ -5,7 +5,7 @@ import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import DisplayQuote from "~/components/DisplayQuote";
 import { useOptionalUser } from "~/utils";
-import { getQuote, getRandomQuote } from "~/models/quote.server";
+import { QuoteServer } from "~/models/quote.server";
 import { commitSession, getSession, getUserId } from "~/session.server";
 import {
   checkIfQuoteIsLiked,
@@ -15,7 +15,10 @@ import {
 export const loader = async ({ request }: LoaderArgs) => {
   const session = await getSession(request);
   const quoteId = session.get("quoteId") || null;
-  const quote = quoteId ? await getQuote(quoteId) : await getRandomQuote();
+  const quoteServer = new QuoteServer();
+  const quote = quoteId
+    ? await quoteServer.getQuote(quoteId)
+    : await quoteServer.getBiasedRandomQuote();
   const userId = await getUserId(request);
   invariant(quote, "Quote not found");
   const liked = userId ? await checkIfQuoteIsLiked(quote?.id, userId) : false;
@@ -34,7 +37,8 @@ export async function action({ request, params }: ActionArgs) {
   const quoteId = formData.get("quoteId");
   if (quoteId && typeof quoteId === "string") {
     const userId = await getUserId(request);
-    const quote = await getQuote(quoteId);
+    const quoteServer = new QuoteServer();
+    const quote = await quoteServer.getQuote(quoteId);
     invariant(quote, `Quote not found: ${params.id}`);
     invariant(userId, `UserId not found: ${request}`);
     await createOrDeleteQuotesUsers(quote?.id, userId);
