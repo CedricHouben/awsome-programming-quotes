@@ -13,6 +13,7 @@ export default function Drawer({ children }: IShareDrawer) {
       <PrimaryButton
         handleClick={() => setIsOpen(!isOpen)}
         dataQa="shareDrawer-share-btn"
+        className="w-24"
       >
         Share
       </PrimaryButton>

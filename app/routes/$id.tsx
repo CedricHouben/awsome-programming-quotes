@@ -4,9 +4,9 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import DisplayQuote from "~/components/DisplayQuote";
+import { handleLike } from "~/helpers/action.helper";
 import {
   checkIfQuoteIsLiked,
-  createOrDeleteQuotesUsers,
 } from "~/models/quote-user.server";
 import { QuoteServer } from "~/models/quote.server";
 import { getUserId } from "~/session.server";
@@ -24,18 +24,9 @@ export const loader = async ({ params, request }: LoaderArgs) => {
   return json({ quote, liked });
 };
 
-export async function action({ request, params }: ActionArgs) {
+export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
-  const quoteId = formData.get("quoteId");
-  if (quoteId && typeof quoteId === "string") {
-    const userId = await getUserId(request);
-    const quoteServer = new QuoteServer();
-    const quote = await quoteServer.getQuote(quoteId);
-    invariant(quote, `Quote not found: ${params.id}`);
-    invariant(userId, `UserId not found: ${request}`);
-    return createOrDeleteQuotesUsers(quote?.id, userId);
-  }
-  Error("Invariant violation: quoteId is missing in form submit");
+  return await handleLike(formData, request);
 }
 
 export const meta: V2_MetaFunction = () => [{ title: "Share your quote" }];
@@ -43,5 +34,5 @@ export const meta: V2_MetaFunction = () => [{ title: "Share your quote" }];
 export default function Quote() {
   const user = useOptionalUser();
   const { quote, liked } = useLoaderData<typeof loader>();
-  return <DisplayQuote {...quote} user={user} liked={liked} />;
+  return <DisplayQuote {...quote} user={user} liked={liked}></DisplayQuote>;
 }

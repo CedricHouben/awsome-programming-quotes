@@ -1,6 +1,6 @@
 import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useRevalidator } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import DisplayQuote from "~/components/DisplayQuote";
 import { useOptionalUser } from "~/utils";
@@ -9,6 +9,7 @@ import { commitSession, getSession, getUserId } from "~/session.server";
 import {
   checkIfQuoteIsLiked,
 } from "~/models/quote-user.server";
+import { useEffect } from "react";
 import AutoReload from "~/components/AutoReload";
 import {
   handleLikeWithRedirect,
@@ -39,23 +40,34 @@ export async function action({ request, params }: ActionArgs) {
   const formData = await request.formData();
   const formAction = formData.get("fromAction");
   if (formAction === "like") {
-    return handleLikeWithRedirect(formData, request, "/");
+    return handleLikeWithRedirect(formData, request, "/reload");
   }
-  if (formAction === "play") {
-    return handlePlayPause(formData, request, "/reload");
+  if (formAction === "pause") {
+    return handlePlayPause(formData, request, "/");
   }
   Error("Invariant violation: fromAction unknown");
 }
 
 export const meta: V2_MetaFunction = () => [{ title: "A random quote" }];
 
-export default function QuotePage() {
+export default function Reload() {
   const user = useOptionalUser();
   const { quote, liked } = useLoaderData<typeof loader>();
 
+  const revalidator = useRevalidator();
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (document.visibilityState === "visible") {
+        revalidator.revalidate();
+      }
+    }, 5 * 1000);
+
+    return () => clearInterval(interval);
+  }, [revalidator]);
+
   return (
     <DisplayQuote {...quote} user={user} liked={liked}>
-      <AutoReload play={true} quoteId={quote.id}></AutoReload>
+      <AutoReload play={false} quoteId={quote.id}></AutoReload>
     </DisplayQuote>
   );
 }

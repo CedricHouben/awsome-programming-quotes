@@ -9,6 +9,7 @@ export interface IDisplayQuoteProps {
   id: string;
   liked: boolean;
   user: User | undefined;
+  children?: JSX.Element;
 }
 export default function DisplayQuote({
   author,
@@ -16,6 +17,7 @@ export default function DisplayQuote({
   id,
   liked,
   user,
+  children,
 }: IDisplayQuoteProps) {
   return (
     <main className="full-height-exc-navbar container mx-auto  px-8">
@@ -28,10 +30,13 @@ export default function DisplayQuote({
           <span className="cursor">|</span>
         </h1>
         <h2 className="mb-4 font-retro text-2xl">{author}</h2>
+        <div className="flex flex-row">
+          <ShareDrawer>
+            <ShareQuote id={id} />
+          </ShareDrawer>
+          {children}
+        </div>
 
-        <ShareDrawer>
-          <ShareQuote id={id} />
-        </ShareDrawer>
         {user && <RateQuote liked={liked} quoteId={id} />}
       </div>
     </main>
