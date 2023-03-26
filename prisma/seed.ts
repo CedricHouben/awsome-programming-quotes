@@ -5,6 +5,14 @@ import { quotes } from "./data/quotes";
 const prisma = new PrismaClient();
 
 async function seed() {
+  for (const quote of quotes) {
+    await prisma.quote.upsert({
+      where: { id: quote.id },
+      update: quote,
+      create: quote,
+    });
+  }
+
   const email = "rachel@remix.run";
 
   // cleanup the existing database
@@ -22,16 +30,17 @@ async function seed() {
           hash: hashedPassword,
         },
       },
+      quotes: {
+        create: {
+          quote: {
+            connect: {
+              id: quotes[0].id,
+            },
+          },
+        },
+      },
     },
   });
-
-  for (const quote of quotes) {
-    await prisma.quote.upsert({
-      where: { id: quote.id },
-      update: quote,
-      create: quote,
-    });
-  }
 
   console.log(`Database has been seeded. 🌱`);
 }

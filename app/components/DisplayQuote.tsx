@@ -1,16 +1,22 @@
-
+import type { User } from "@prisma/client";
 import ShareDrawer from "~/components/ShareDrawer";
 import ShareQuote from "~/components/ShareQuote";
+import AuthenticationSection from "./AuthenticationSection";
+import RateQuote from "./RateQuote";
 
 export interface IDisplayQuoteProps {
   description: string;
   author: string;
   id: string;
+  liked: boolean;
+  user: User | undefined;
 }
 export default function DisplayQuote({
   author,
   description,
   id,
+  liked,
+  user,
 }: IDisplayQuoteProps) {
   return (
     <main className="container mx-auto  h-full  px-8">
@@ -27,6 +33,8 @@ export default function DisplayQuote({
         <ShareDrawer>
           <ShareQuote id={id} />
         </ShareDrawer>
+        {user && <RateQuote liked={liked} quoteId={id} />}
+        <AuthenticationSection user={user} />
       </div>
     </main>
   );

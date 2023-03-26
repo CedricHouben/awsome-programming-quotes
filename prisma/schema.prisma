@@ -15,6 +15,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   password Password?
+  quotes   QuotesOnUsers[]
 }
 
 model Password {
@@ -29,6 +30,18 @@ model Quote {
   author      String
   description String
 
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  users     QuotesOnUsers[]
+}
+
+model QuotesOnUsers {
+  quote     Quote    @relation(fields: [quoteId], references: [id])
+  quoteId   String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@id([quoteId, userId])
 }

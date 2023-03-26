@@ -1,4 +1,10 @@
-import { createCookieSessionStorage, redirect } from "@remix-run/node";
+import type {
+  Session,
+  SessionData} from "@remix-run/node";
+import {
+  createCookieSessionStorage,
+  redirect
+} from "@remix-run/node";
 import invariant from "tiny-invariant";
 
 import type { User } from "~/models/user.server";
@@ -94,4 +100,8 @@ export async function logout(request: Request) {
       "Set-Cookie": await sessionStorage.destroySession(session),
     },
   });
+}
+
+export function commitSession(session: Session<SessionData, SessionData>) {
+  return sessionStorage.commitSession(session);
 }
