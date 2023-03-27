@@ -1,7 +1,12 @@
-
 export function LikeIconActive() {
   return (
-    <svg width="60" height="60" id="svg2" version="1.1">
+    <svg
+      width="60"
+      height="60"
+      id="svg2"
+      version="1.1"
+      data-qa="likeIconActive-icon-svg"
+    >
       <defs id="defs4" />
       <g id="layer1" transform="translate(0,-992.36218)">
         <rect

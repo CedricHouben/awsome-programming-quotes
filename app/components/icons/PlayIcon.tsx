@@ -8,6 +8,7 @@ export function PlayIcon({ width, height, stroke }: ISvgIcon) {
       width={width}
       height={height}
       viewBox="0 0 512 512"
+      data-qa="playIcon-icon-svg"
     >
       <path stroke={stroke} d="M96 64l320 192-320 192z"></path>
     </svg>

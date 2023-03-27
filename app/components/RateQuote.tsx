@@ -10,7 +10,9 @@ export default function RateQuote({ liked, quoteId }: IRateQuoteProps) {
     <Form method="post" className="mt-4">
       <input type="hidden" name="fromAction" value="like" />
       <input type="hidden" name="quoteId" value={quoteId} />
-      <button type="submit">{liked ? <LikeIconActive /> : <LikeIcon />}</button>
+      <button data-qa="rateQuote-submit-btn" type="submit">
+        {liked ? <LikeIconActive /> : <LikeIcon />}
+      </button>
     </Form>
   );
 }

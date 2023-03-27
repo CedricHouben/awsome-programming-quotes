@@ -14,6 +14,7 @@ describe("quote tests", () => {
   it("should allow user to share quote", () => {
     cy.visitAndCheck("/");
     cy.get('[data-qa="shareDrawer-share-btn"]').click();
+
     cy.get('[data-qa="shareQuote-copy-btn"]').click({ force: true });
     cy.window().then((win) => {
       win.navigator.clipboard.readText().then((text) => {
@@ -22,6 +23,24 @@ describe("quote tests", () => {
           "not.be.undefined"
         );
       });
+    });
+  });
+
+  it("should allow user to enable and disable reload mode", () => {
+    cy.clock();
+    cy.visitAndCheck("/");
+    cy.get('[data-qa="playIcon-icon-svg"]').click();
+    cy.url().should("include", "/reload");
+
+    cy.get('[data-qa="displayQuote-quote-title"]').then(($value) => {
+      const activeQuoteBeforeRating = $value.text();
+
+      cy.tick(5000);
+      cy.get('[data-qa="displayQuote-quote-title"]')
+        .invoke("text")
+        .should("to.not.contain", activeQuoteBeforeRating);
+      cy.get('[data-qa="pauseIcon-icon-svg"]').click();
+      cy.url().should("eq", "http://localhost:3000/");
     });
   });
 });
