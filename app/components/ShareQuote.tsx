@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { getHostname } from "~/helpers/share-quote.helper";
 import PrimaryButton from "./PrimaryButton";
 
 export interface IShareQuote {
@@ -7,9 +8,7 @@ export interface IShareQuote {
 export default function ShareQuote({ id }: IShareQuote) {
   const [copied, setCopied] = useState(false);
   function hostname(id: string) {
-    return typeof document !== "undefined"
-      ? `${window.location.protocol}//${window.location.host}/${id}`
-      : "";
+    return typeof document !== "undefined" ? getHostname(window, id) : "";
   }
 
   function copyToClipboard(text: string) {
