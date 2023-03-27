@@ -50,3 +50,20 @@ export default function App() {
     </html>
   );
 }
+
+export function ErrorBoundary({ error }: any) {
+  return (
+    <html>
+      <head>
+        <title>Oh no!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body className="m-4">
+        <h1 className="text-2xl">Something went wrong!</h1>
+        <p>{error.message}</p>
+        <Scripts />
+      </body>
+    </html>
+  );
+}
