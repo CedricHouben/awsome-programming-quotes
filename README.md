@@ -42,16 +42,14 @@ Click this button to create a [Gitpod](https://gitpod.io) workspace with the pro
 
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/remix-run/indie-stack/tree/main)
 
-## Development
-
+## Development how to run
 - This step only applies if you've opted out of having the CLI install dependencies for you:
 
   ```sh
-  npx remix init
+  npm i
   ```
 
-- Initial setup: _If you just generated this project, this step has been done for you._
-
+- Initial setup:
   ```sh
   npm run setup
   ```
