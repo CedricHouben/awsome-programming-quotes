@@ -40,7 +40,9 @@ describe("quote tests", () => {
         .invoke("text")
         .should("to.not.contain", activeQuoteBeforeRating);
       cy.get('[data-qa="pauseIcon-icon-svg"]').click();
-      cy.url().should("eq", "http://localhost:3000/");
+      cy.location().should((loc) => {
+        expect(loc.pathname).to.eq("/");
+      });
     });
   });
 });
