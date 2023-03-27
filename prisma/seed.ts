@@ -30,15 +30,13 @@ async function seed() {
           hash: hashedPassword,
         },
       },
-      quotes: {
-        create: {
-          quote: {
-            connect: {
-              id: quotes[0].id,
-            },
-          },
-        },
-      },
+    },
+  });
+
+  await prisma.quotesOnUsers.create({
+    data: {
+      userId: user.id,
+      quoteId: quotes[0].id,
     },
   });
 
