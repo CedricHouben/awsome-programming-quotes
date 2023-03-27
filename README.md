@@ -1,6 +1,16 @@
-# Remix Indie Stack
+# Awsome programming quotes
+## Key features
 
-![The Remix Indie Stack](https://repository-images.githubusercontent.com/465928257/a241fa49-bd4d-485a-a2a5-5cb8e4ee0abf)
+- Fetch programming quotes from a SQLite Database
+- Allow users to copy and share quotes
+- Allow users to like quotes
+- Modified the getRandomQuotes api to return liked quotes
+- Allow users to enable slideshow mode. This mode displays a new quote every 5 seconds
+- Mobile friendly
+
+## Based on
+
+The Remix Indie Stack
 
 Learn more about [Remix Stacks](https://remix.run/stacks).
 
